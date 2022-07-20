@@ -59,3 +59,7 @@
 /* Optional encoder pins */
 #define ENCODERS_PAD_A { B5 }
 #define ENCODERS_PAD_B { B4 }
+
+#define OLED_TIMEOUT 120000
+#define OLED_BRIGHTNESS 50
+

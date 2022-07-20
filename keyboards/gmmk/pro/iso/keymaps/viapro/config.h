@@ -1,0 +1,10 @@
+#pragma once
+
+#ifdef RGB_MATRIX_ENABLE
+    #define RGB_DISABLE_WHEN_USB_SUSPENDED true
+#endif // RGB_MATRIX_ENABLE
+
+
+
+#define RGBLIGHT_HUE_STEP 8
+#define RGBLIGHT_SAT_STEP 8
