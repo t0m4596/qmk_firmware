@@ -15,6 +15,7 @@
  */
 
 #include QMK_KEYBOARD_H
+#include <string.h>
 
 enum uno_keycode
 {
@@ -36,6 +37,7 @@ bool lastChar = true;
 int charIndex = 0;
 char* chars = "AaBbCcDd0123456789";
 
+
 #define COUNTER X_A
 
 enum encoder_names {
@@ -49,22 +51,20 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 };
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
-    int charLen = strlen(chars);
+    // int charLen = strlen(chars);
+    rgblight_sethsv_noeeprom(255, 255, 255);
+    rgblight_mode_noeeprom(RGBLIGHT_MODE_RAINBOW_MOOD);
 	switch (keycode) {
 		case UNO:
             if (record->event.pressed) {
                 pressTimer = timer_read();
             } else {
                 uint16_t timeElapsed = timer_elapsed(pressTimer);
-                
-                if (timeElapsed < CUSTOM_LONGPRESS) {
+
+                if (timeElapsed < CUSTOM_LONGERPRESS) {
                     send_string(" ");
                     firstChar = true;
                     charIndex = 0;
-                } else if (timeElapsed < CUSTOM_LONGERPRESS) {
-                    // Long press, confirm the current letter, reset counter
-                    charIndex = 0;
-                    send_string();
                 } else if (timeElapsed < RESET_LENGTH) {
                     // Longer press, display macro.
                     SEND_STRING(CUSTOM_STRING);
@@ -103,10 +103,13 @@ bool encoder_update_user(uint8_t index, bool counterClockwise) {
                 charIndex = charIndex % charLen;
             }
         }
-        
+
         firstChar = false;
         SEND_STRING(SS_TAP(X_BSPACE));
-        send_string(chars[charIndex]);
+
+        char str[2] = "\0";
+        str[0] = chars[charIndex];
+        send_string(str);
     }
 	return true;
 }
