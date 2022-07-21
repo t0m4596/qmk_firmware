@@ -27,7 +27,7 @@ static uint16_t pressTimer = 0xFFFF;
 #define CUSTOM_LONGERPRESS 1500
 #define CUSTOM_STRING "\nHier sind die Links zu den Teilen die du benoetigst: \nhttps://www.hornbach.de/shop/GEBERIT-Mepla-Uebergangsbogen-90-16mm-x-1-2-mit-Aussengewinde/4666456/artikel.html   2x \nhttps://www.hornbach.de/shop/GEBERIT-Mepla-Anschlusswinkel-90-16mm-x-1-2-36mm-tief/4666461/artikel.html  2x"
 #define RESET_LENGTH 130000
-#define ALPHA "AaBbCcDdEeFfGgHhIiJjKkLlMmOnNoPpQqRrSsTtUuVvWwXxYyZz"
+#define ALPHA "AaBbCcDdEeFfGgHhIiJjKkLlMmOoNnPpQqRrSsTtUuVvWwXxYyZz"
 #define NUMBERS "0123456789"
 #define PUNCTUATION "\\\""
 const uint8_t PROGMEM RGBLED_RAINBOW_MOOD_INTERVALS[] = { 10, 25, 50 };
@@ -56,14 +56,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 		case UNO:
             if (record->event.pressed) {
                 pressTimer = timer_read();
-                while (record->event.pressed){
-                    uint16_t timeElapsed = timer_elapsed(pressTimer);
-                    if (timeElapsed > CUSTOM_LONGERPRESS){
-                        tap_code(KC_BSPC);
-                        wait_ms(200);
-                    }
-                }    
-                break;
             } 
             else {
                 uint16_t timeElapsed = timer_elapsed(pressTimer);
@@ -73,12 +65,11 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                     firstChar = true;
                     charIndex = 0;
                 } else if (timeElapsed < CUSTOM_LONGERPRESS) {
+                    tap_code(KC_BSPC);
+                } else if (timeElapsed < RESET_LENGTH) {
                     send_string("\n");
                     firstChar = true;
-                    charIndex = 0; 
-                } else if (timeElapsed < RESET_LENGTH) {
-                    // Longer press, display macro.
-                    //SEND_STRING(CUSTOM_STRING);
+                    charIndex = 0;
                 } else {
                     reset_keyboard();
                 }
