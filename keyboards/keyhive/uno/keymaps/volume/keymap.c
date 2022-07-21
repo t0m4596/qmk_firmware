@@ -46,53 +46,18 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 };
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
-	switch (keycode) {
+    // int charLen = strlen(chars);
+    switch (keycode) {
 		case UNO:
             if (record->event.pressed) {
                 pressTimer = timer_read();
-            } else {
+            }
+            else {
                 uint16_t timeElapsed = timer_elapsed(pressTimer);
-                switch (presetCounter) {
-                    case 0:
-                        SEND_STRING(SS_LCMD("\n"));
-                    break;
-                    case 1:
-                        SEND_STRING("Hello!");
-                    break;
-                    case 2:
-                        SEND_STRING("\n\nI am uno!");
-                    break;
-                    case 3:
-                        SEND_STRING("\n\nI can do all sorts of useless things!");
-                    break;
-                    case 4:
-                        SEND_STRING("\n\nAnd I have a built-in RGB LED!\n\n\n");
-                        rgblight_sethsv_noeeprom(255, 255, 255);
-                        rgblight_mode_noeeprom(RGBLIGHT_MODE_RAINBOW_MOOD);
-                    break;
-                    default:
-                        if (timeElapsed < CUSTOM_LONGPRESS) {
-                            // Normal press.  We're going to send the current letter and increment the counter.
-                            SEND_STRING(SS_TAP(X_BSPACE));
-                            send_string(stringToSend);
-                            stringToSend[0]++;
-                            if (stringToSend[0] > maxLetter) {
-                                stringToSend[0] = 'a';
-                            }
-                        } else if (timeElapsed < CUSTOM_LONGERPRESS) {
-                            // Long press, confirm the current letter, reset counter
-                            stringToSend[0] = 'a';
-                            send_string(stringToSend);
-                        } else if (timeElapsed < RESET_LENGTH) {
-                            // Longer press, display macro.
-                            SEND_STRING(CUSTOM_STRING);
-                        } else {
-                            reset_keyboard();
-                        }
-                        presetCounter--;
-                    break;
+
+                if (timeElapsed < CUSTOM_LONGPRESS) {
+                    tap_code(KC_MUTE);
                 }
-                presetCounter++;
             }
         break;
     }
@@ -105,16 +70,18 @@ void keyboard_post_init_user(void) {
     rgblight_mode(1);
     // Uncomment to enable rainbow mode when plugged in.
     // Otherwise, the LED will be revealed after a few keypresses.
-    //rgblight_sethsv_noeeprom(255, 255, 255);
-    //rgblight_mode_noeeprom(RGBLIGHT_MODE_RAINBOW_MOOD);
+    rgblight_sethsv_noeeprom(255, 255, 255);
+    rgblight_mode_noeeprom(RGBLIGHT_MODE_RAINBOW_MOOD);
 }
 
 bool encoder_update_user(uint8_t index, bool clockwise) {
     if (index == _ENCODER) { /* First encoder */
         if (clockwise) {
-            tap_code(KC_WH_U);
+            tap_code(KC_VOLU);
+            tap_code(KC_A);
         } else {
-            tap_code(KC_WH_D);
+            tap_code(KC_VOLD);
+            tap_code(KC_B);
         }
 		return false;
     }
