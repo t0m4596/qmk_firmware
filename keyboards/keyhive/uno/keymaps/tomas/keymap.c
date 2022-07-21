@@ -23,19 +23,19 @@ enum uno_keycode
 };
 
 static uint16_t pressTimer = 0xFFFF;
-#define CUSTOM_LONGPRESS 350
+#define CUSTOM_LONGPRESS 500
 #define CUSTOM_LONGERPRESS 1500
 #define CUSTOM_STRING "\nHier sind die Links zu den Teilen die du benoetigst: \nhttps://www.hornbach.de/shop/GEBERIT-Mepla-Uebergangsbogen-90-16mm-x-1-2-mit-Aussengewinde/4666456/artikel.html   2x \nhttps://www.hornbach.de/shop/GEBERIT-Mepla-Anschlusswinkel-90-16mm-x-1-2-36mm-tief/4666461/artikel.html  2x"
 #define RESET_LENGTH 130000
-#define UPPER = "ABCDEFGHIJKLMONPQRSTUVWXYZ"
-#define LOWER = "abcdefghijklmnopqrstuvwxyz"
-#define NUMBERS = "0123456789"
+#define ALPHA "AaBbCcDdEeFfGgHhIiJjKkLlMmOnNoPpQqRrSsTtUuVvWwXxYyZz"
+#define NUMBERS "0123456789"
+#define PUNCTUATION "\\\""
 const uint8_t PROGMEM RGBLED_RAINBOW_MOOD_INTERVALS[] = { 10, 25, 50 };
 
 bool firstChar = true;
 bool lastChar = true;
 int charIndex = 0;
-char* chars = "AaBbCcDd0123456789";
+char* chars = ALPHA NUMBERS;
 
 
 #define COUNTER X_A
@@ -52,22 +52,33 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     // int charLen = strlen(chars);
-    rgblight_sethsv_noeeprom(255, 255, 255);
-    rgblight_mode_noeeprom(RGBLIGHT_MODE_RAINBOW_MOOD);
-	switch (keycode) {
+    switch (keycode) {
 		case UNO:
             if (record->event.pressed) {
                 pressTimer = timer_read();
-            } else {
+                while (record->event.pressed){
+                    uint16_t timeElapsed = timer_elapsed(pressTimer);
+                    if (timeElapsed > CUSTOM_LONGERPRESS){
+                        tap_code(KC_BSPC);
+                        wait_ms(200);
+                    }
+                }    
+                break;
+            } 
+            else {
                 uint16_t timeElapsed = timer_elapsed(pressTimer);
 
-                if (timeElapsed < CUSTOM_LONGERPRESS) {
+                if (timeElapsed < CUSTOM_LONGPRESS) {
                     send_string(" ");
                     firstChar = true;
                     charIndex = 0;
+                } else if (timeElapsed < CUSTOM_LONGERPRESS) {
+                    send_string("\n");
+                    firstChar = true;
+                    charIndex = 0; 
                 } else if (timeElapsed < RESET_LENGTH) {
                     // Longer press, display macro.
-                    SEND_STRING(CUSTOM_STRING);
+                    //SEND_STRING(CUSTOM_STRING);
                 } else {
                     reset_keyboard();
                 }
@@ -83,8 +94,8 @@ void keyboard_post_init_user(void) {
     rgblight_mode(1);
     // Uncomment to enable rainbow mode when plugged in.
     // Otherwise, the LED will be revealed after a few keypresses.
-    //rgblight_sethsv_noeeprom(255, 255, 255);
-    //rgblight_mode_noeeprom(RGBLIGHT_MODE_RAINBOW_MOOD);
+    rgblight_sethsv_noeeprom(255, 255, 255);
+    rgblight_mode_noeeprom(RGBLIGHT_MODE_RAINBOW_MOOD);
 }
 
 bool encoder_update_user(uint8_t index, bool counterClockwise) {
