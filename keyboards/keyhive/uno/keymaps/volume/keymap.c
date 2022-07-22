@@ -21,15 +21,9 @@ enum uno_keycode
   UNO = SAFE_RANGE
 };
 
-static uint16_t pressTimer = 0xFFFF;
-#define CUSTOM_LONGPRESS 150
-#define CUSTOM_LONGERPRESS 750
-#define CUSTOM_STRING "\nHier sind die Links zu den Teilen die du benoetigst: \nhttps://www.hornbach.de/shop/GEBERIT-Mepla-Uebergangsbogen-90-16mm-x-1-2-mit-Aussengewinde/4666456/artikel.html   2x \nhttps://www.hornbach.de/shop/GEBERIT-Mepla-Anschlusswinkel-90-16mm-x-1-2-36mm-tief/4666461/artikel.html  2x"
-#define RESET_LENGTH 3000
+
 const uint8_t PROGMEM RGBLED_RAINBOW_MOOD_INTERVALS[] = { 10, 25, 50 };
 
-char stringToSend[2] = "a";
-char maxLetter = 'z';
 
 uint8_t presetCounter = 0;
 
@@ -46,18 +40,10 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 };
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
-    // int charLen = strlen(chars);
     switch (keycode) {
 		case UNO:
-            if (record->event.pressed) {
-                pressTimer = timer_read();
-            }
-            else {
-                uint16_t timeElapsed = timer_elapsed(pressTimer);
-
-                if (timeElapsed < CUSTOM_LONGPRESS) {
-                    tap_code(KC_MUTE);
-                }
+            if (record->event.pressed){
+                tap_code(KC_MUTE);
             }
         break;
     }
@@ -74,14 +60,12 @@ void keyboard_post_init_user(void) {
     rgblight_mode_noeeprom(RGBLIGHT_MODE_RAINBOW_MOOD);
 }
 
-bool encoder_update_user(uint8_t index, bool clockwise) {
+bool encoder_update_user(uint8_t index, bool counterClockwise) {
     if (index == _ENCODER) { /* First encoder */
-        if (clockwise) {
-            tap_code(KC_VOLU);
-            tap_code(KC_A);
-        } else {
+        if (counterClockwise) {
             tap_code(KC_VOLD);
-            tap_code(KC_B);
+        } else {
+            tap_code(KC_VOLU);
         }
 		return false;
     }
