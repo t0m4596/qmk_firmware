@@ -6,7 +6,6 @@
 #define DEVICE_VER      0x0001
 #define MANUFACTURER    Keyhive
 #define PRODUCT         Sharon
-#define DESCRIPTION     Rose version of the Sofle
 #define MASTER_RIGHT
 
 /* key matrix size */
@@ -36,6 +35,12 @@
 /* communication between sides */
 #define SOFT_SERIAL_PIN D2
 
-#define NO_ACTION_MACRO
-#define NO_ACTION_FUNCTION
 
+#ifdef LINK_TIME_OPTIMIZATION_ENABLE
+#    ifndef NO_ACTION_MACRO
+#        define NO_ACTION_MACRO
+#    endif
+#    ifndef NO_ACTION_FUNCTION
+#        define NO_ACTION_FUNCTION
+#    endif
+#endif
