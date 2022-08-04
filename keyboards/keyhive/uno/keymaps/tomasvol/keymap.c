@@ -16,6 +16,7 @@
 
 #include QMK_KEYBOARD_H
 #include <string.h>
+#include "sendstring_german.h"
 #include "quantum_keycodes.h"
 
 enum uno_keycode
@@ -38,8 +39,8 @@ static uint16_t pressTimer = 0xFFFF;
 #define CUSTOM_LONGERPRESS 1000
 #define MACRO_LENGTH 2000
 #define RESET_LENGTH 10000
-#define CUSTOM_THIRTY 30000
-#define CUSTOM_EEGG_LENGTH 60000
+#define CUSTOM_THIRTY 10000
+#define CUSTOM_EEGG_LENGTH 30000
 #define ALPHA "AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz"
 #define NUMBERS "0123456789"
 #define PUNCTUATION "?!.:,;&-+\\/\"%()={}[]*~<>|^'"
