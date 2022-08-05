@@ -124,7 +124,8 @@ bool encoder_update_user(uint8_t index, bool counterClockwise) {
                 if(charIndex < 0)
                     charIndex = charLen - 1;
             }
-        } else {
+        } 
+        else {
             if(buttonpush){
                 tap_code(KC_VOLU);
             }
