@@ -23,7 +23,12 @@ uint16_t pressTimer;
 
 enum uno_keycode
 {
-  UNO = SAFE_RANGE
+    UNO = SAFE_RANGE,
+    KC_TAP
+};
+
+enum {
+    TD_KC_F16,
 };
 
 
@@ -40,10 +45,24 @@ enum encoder_names {
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
       [0] = LAYOUT(
-            UNO
+            TD(TD_KC_F16)
           )
 };
 
+/*
+bool process_record_user(uint16_t keycode, keyrecord_t *record) {
+    switch (keycode) {
+		case UNO:
+          if (record->event.pressed){
+            tap_code16 (KC_F16);
+          }
+        break;
+    }
+    return false;
+}
+*/
+
+/*
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     switch (keycode) {
 		case UNO:
@@ -85,6 +104,38 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     }
     return false;
 }
+*/
+
+void mouseKeys (qk_tap_dance_state_t *state, void *user_data) {
+    if (state->count == 1) {
+        if (MOVE){
+            MOVE = false;
+            rgblight_setrgb(255,0,0);
+            _delay_ms(500);
+        } else {
+            MOVE = true;
+            rgblight_setrgb(0,255,0);
+            _delay_ms(500);
+        }
+    } else if (state->count == 2) {
+        tap_code (KC_MS_BTN1);
+    } else if (state->count == 3) {
+        tap_code (KC_MS_BTN1);
+        tap_code (KC_MS_BTN1);
+    } else if (state->count == 4) {
+        tap_code (KC_MS_BTN2);
+    } else if (state->count == 5) {
+        tap_code(KC_MS_BTN3);
+    } else {
+        reset_tap_dance (state);
+    }
+}
+
+qk_tap_dance_action_t tap_dance_actions[] = {
+ [0] = ACTION_TAP_DANCE_FN (mouseKeys),
+};
+
+
 
 void keyboard_post_init_user(void) {
     rgblight_enable_noeeprom();

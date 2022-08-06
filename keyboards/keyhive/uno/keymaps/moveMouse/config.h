@@ -1,1 +1,2 @@
-#define MOUSEKEY_STEP = 10
+#define MOUSEKEY_MOVE_DELTA 20
+#define TAPPING_TERM 400
