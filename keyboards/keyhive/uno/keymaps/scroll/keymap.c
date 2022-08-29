@@ -66,15 +66,14 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     return false;
 }
 
-void keyboard_post_init_user(void) {
+
+void suspend_wakeup_init_kb(void) {
     rgblight_enable_noeeprom();
-    rgblight_sethsv_noeeprom(0, 0, 0);
-    rgblight_mode(1);
-    // Uncomment to enable rainbow mode when plugged in.
-    // Otherwise, the LED will be revealed after a few keypresses.
     rgblight_sethsv_noeeprom(255, 255, 255);
     rgblight_mode_noeeprom(RGBLIGHT_MODE_RAINBOW_MOOD);
+    suspend_wakeup_init_user();
 }
+
 
 bool encoder_update_user(uint8_t index, bool counterClockwise) {
     if (index == _ENCODER) { /* First encoder */
