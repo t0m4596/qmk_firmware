@@ -22,7 +22,6 @@ see https://docs.qmk.fm/#/feature_split_keyboard?id=setting-handedness
 for more options.
 */
 
-#define EE_HANDS
 
 //Add RGB underglow
 #define RGB_DI_PIN D3
@@ -30,3 +29,18 @@ for more options.
 #define RGBLED_SPLIT {37,37}
 #define RGBLIGHT_ANIMATIONS
 #define RGBLIGHT_LIMIT_VAL 150
+
+//OLED Settings
+#define OLED_DISABLE_TIMEOUT
+#define OLED_DRIVER_ENABLE
+#define OLED_BRIGHTNESS 30
+
+    //OLED Text settings
+#define OLED_FONT_WIDTH 6
+#define OLED_FONT_HEIGHT 8
+
+/* Select hand configuration */
+
+//#define MASTER_LEFT
+// #define MASTER_RIGHT
+#define EE_HANDS

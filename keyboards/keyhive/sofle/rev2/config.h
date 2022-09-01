@@ -44,3 +44,5 @@
 #        define NO_ACTION_FUNCTION
 #    endif
 #endif
+
+#define RGBLIGHT_SLEEP
