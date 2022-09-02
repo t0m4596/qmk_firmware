@@ -22,6 +22,12 @@ see https://docs.qmk.fm/#/feature_split_keyboard?id=setting-handedness
 for more options.
 */
 
+//activate Dog
+#define DOG_ENABLE 
+
+//activate WPM counter
+#define WPM_COUNTER
+#define SPLIT_WPM_ENABLE
 
 //Add RGB underglow
 #define RGB_DI_PIN D3
@@ -34,13 +40,14 @@ for more options.
 #define OLED_DISABLE_TIMEOUT
 #define OLED_DRIVER_ENABLE
 #define OLED_BRIGHTNESS 30
-
-    //OLED Text settings
-#define OLED_FONT_WIDTH 6
-#define OLED_FONT_HEIGHT 8
+#define SPLIT_OLED_ENABLE
 
 /* Select hand configuration */
 
 //#define MASTER_LEFT
 // #define MASTER_RIGHT
 #define EE_HANDS
+
+#define SPLIT_MODS_ENABLE
+#define SPLIT_LAYER_STATE_ENABLE
+#define SPLIT_TRANSPORT_MIRROR
