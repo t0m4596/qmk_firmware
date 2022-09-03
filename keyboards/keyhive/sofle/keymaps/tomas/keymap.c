@@ -16,6 +16,7 @@
   */
 
 #include QMK_KEYBOARD_H
+#include "transactions.h"
 #include "oled.c"
 #include "encoder.c"
 #include "keymap_german.h"
@@ -113,6 +114,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 int i;
 
 void keyboard_post_init_user(void) {
+    transaction_register_rpc(KEY_PRESSED_EVENT, keyboard_sync_keypressed_event);
     rgblight_sethsv_noeeprom(255, 255, 255);
     rgblight_mode_noeeprom(RGBLIGHT_MODE_STATIC_GRADIENT);
     for(i=0; i<5; i++){ //set RGB mode to gradient 6. is defenetly cleaner to get but this way it works

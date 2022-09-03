@@ -57,6 +57,7 @@ bool isSneaking = false;
 bool isJumping  = false;
 bool showedJump = true;
 
+
 /* logic */
 static void render_luna(int LUNA_X, int LUNA_Y) {
     /* Sit */
@@ -170,6 +171,44 @@ static void render_luna(int LUNA_X, int LUNA_Y) {
 
 /* KEYBOARD PET END */
 
+
+typedef struct _key_pressed_event_input {
+    uint16_t keycode;
+    bool pressed;
+} key_pressed_event_input;
+
+typedef struct _key_pressed_event_output {
+    bool success;
+} key_pressed_event_output;
+
+void handle_animation_on_keypress(uint16_t keycode, bool pressed) {
+    switch (keycode) {
+        case KC_LSFT:
+        case KC_RSFT:
+            if (pressed) {
+                isSneaking = true;
+            } else {
+                isSneaking = false;
+            }
+            break;
+        case KC_SPC:
+            if (pressed) {
+                isJumping  = true;
+                showedJump = false;
+            } else {
+                isJumping = false;
+            }
+            break;
+    }
+}
+
+void keyboard_sync_keypressed_event(uint8_t in_buflen, const void* in_data, uint8_t out_buflen, void* out_data) {
+    const key_pressed_event_input *input = (const key_pressed_event_input*)in_data;
+    handle_animation_on_keypress(input->keycode, input->pressed);
+    key_pressed_event_output *response = (key_pressed_event_output*)out_data;
+    response->success = true;
+}
+
 //OLED sleep when PC off
 void suspend_power_down_user(void) {
     if (is_keyboard_left()) {
@@ -179,30 +218,27 @@ void suspend_power_down_user(void) {
     }
 }
 
+void send_keypress_to_slave(uint16_t keycode, bool pressed) {
+    key_pressed_event_input input;
+    input.keycode = keycode;
+    input.pressed = pressed;
+    key_pressed_event_output output = {false};
+    transaction_rpc_exec(KEY_PRESSED_EVENT, sizeof(input), &input, sizeof(output), &output);
+}
+
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
-     switch (keycode) {
-            /* KEYBOARD PET STATUS START */
-        #ifdef DOG_ENABLE
-        case KC_LSFT:
-        case KC_RSFT:
-            if (record->event.pressed) {
-                isSneaking = true;
-            } else {
-                isSneaking = false;
-            }
-            break;
-        case KC_SPC:
-            if (record->event.pressed) {
-                isJumping  = true;
-                showedJump = false;
-            } else {
-                isJumping = false;
-            }
-            break;
-        #endif
-            /* KEYBOARD PET STATUS END */
+    
+    /* KEYBOARD PET STATUS START */
+    #ifdef DOG_ENABLE
+        handle_animation_on_keypress(keycode, record->event.pressed);
+
+        if (is_keyboard_master() && (keycode == KC_LSFT || keycode == KC_RSFT || keycode == KC_SPC)) {
+            send_keypress_to_slave(keycode, record->event.pressed ? true : false);
         }
+    #endif
+    /* KEYBOARD PET STATUS END */
+
     return true;
 }
 
