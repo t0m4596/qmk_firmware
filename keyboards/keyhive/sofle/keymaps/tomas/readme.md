@@ -6,9 +6,9 @@ Features:
 
 -   Symmetric modifiers (CMD/Super, Alt/Opt, Ctrl, Shift)
 -   Modes for Qwertz support
--   The OLED on left half shows selected mode, caps lock state, pet dog and is rotated.
+-   The OLED on left half shows selected mode, caps lock state, pet dog with wpm-counter and is rotated.
 -   Left encoder controls volume up/down/mute. Right encoder PGUP/PGDOWN.
--   Via support
+-   Via support can be enabled when dog or oled is disabled.
 -   RGB underglow and per Key lighting support
 
 ## Flashing
