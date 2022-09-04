@@ -159,13 +159,6 @@ static void render_luna(int LUNA_X, int LUNA_Y) {
         animate_luna();
     }
 
-    /* this fixes the screen on and off bug */
-/* if (current_wpm > 0) {
-        oled_on();
-        anim_sleep = timer_read32();
-    } else if (timer_elapsed32(anim_sleep) > 120000) {
-        oled_off();
-    }*/
 }
 #endif
 
@@ -213,11 +206,7 @@ void keyboard_sync_keypressed_event(uint8_t in_buflen, const void* in_data, uint
 
 //OLED sleep when PC off
 void suspend_power_down_user(void) {
-    if (is_keyboard_left()) {
-        oled_off();
-    }else {
-        oled_write_P(PSTR(""), false);
-    }
+    oled_off();
 }
 
 void send_keypress_to_slave(uint16_t keycode, bool pressed) {
@@ -230,7 +219,7 @@ void send_keypress_to_slave(uint16_t keycode, bool pressed) {
 
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
-    
+
     /* KEYBOARD PET STATUS START */
     #ifdef DOG_ENABLE
         handle_animation_on_keypress(keycode, record->event.pressed);
@@ -293,7 +282,7 @@ static void print_status_narrow(void) {
     oled_write_P(PSTR("\n\n"), false);
     led_t led_usb_state = host_keyboard_led_state();
     oled_write_ln_P(PSTR("CPSLK"), led_usb_state.caps_lock);
-    
+
     /* KEYBOARD PET RENDER START */
     #ifdef DOG_ENABLE
          render_luna(0, 11);

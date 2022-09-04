@@ -20,6 +20,7 @@
 #include "oled.c"
 #include "encoder.c"
 #include "keymap_german.h"
+#include "tomas_custom_keycodes.h"
 
 enum layer_names {
   _BASE,
@@ -33,7 +34,7 @@ enum layer_names {
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 /*
- * QWERTY
+ * QWERTZ
  * ,-----------------------------------------.                    ,-----------------------------------------.
  * |  ^   |   1  |   2  |   3  |   4  |   5  |                    |   6  |   7  |   8  |   9  |   0  |  ß   |
  * |------+------+------+------+------+------|                    |------+------+------+------+------+------|
@@ -63,11 +64,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * ,-----------------------------------------.                    ,-----------------------------------------.
  * |      |  F1  |  F2  |  F3  |  F4  |  F5  |                    |  F6  |  F7  |  F8  |  F9  | F10  | F11  |
  * |------+------+------+------+------+------|                    |------+------+------+------+------+------|
- * |  `   |   1  |   2  |   3  |   4  |   5  |                    |   6  |   <  |   >  |   |  |      | F12  |
+ * | ESC  |   1  |   2  |   3  |   4  |   5  |                    |   6  |   7  |   8  |   9  |   0  | Bspc |
  * |------+------+------+------+------+------|                    |------+------+------+------+------+------|
- * | Tab  |   !  |   @  |   #  |   $  |   %  |-------.    ,-------|   ^  |   &  |   (  |   )  |   Ö  |   Ä  |
- * |------+------+------+------+------+------|  MUTE |    |       |------+------+------+------+------+------|
- * | Shift|  =   |  -   |  +   |   {  |   }  |-------|    |-------|   [  |   ]  |   ;  |   /  |   \  | Shift|
+ * | Tab  |   !  |   @  |  _   |   $  |   %  |-------.    ,-------|   "  |   &  |   <  |   >  |   |  | F12  |
+ * |------+------+------+------+------+------|  MUTE |    |  F13  |------+------+------+------+------+------|
+ * | Shift|  =   |  -   |  +   |   {  |   }  |-------|    |-------|   [  |   ]  |   (  |   )  |   /  |   \  |
  * `-----------------------------------------/       /     \      \-----------------------------------------'
  *            | LGUI | LAlt | LCTR |LOWER | /Space  /       \Enter \  |RAISE | RCTR | RAlt | RGUI |
  *            |      |      |      |      |/       /         \      \ |      |      |      |      |
@@ -75,9 +76,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  */
 [_VIA1] = LAYOUT(
   _______,   KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,                       KC_F6,   KC_F7,   KC_F8,   KC_F9,  KC_F10,  KC_F11,
-  KC_GRV,    KC_1,    KC_2,    KC_3,    KC_4,    KC_5,                       KC_6,    KC_7,    KC_8,    KC_9,    KC_0,  KC_F12,
-  _______, KC_EXLM,   KC_AT, KC_HASH,  KC_DLR, KC_PERC,                       KC_CIRC, KC_AMPR, KC_ASTR, KC_LPRN, KC_RPRN, KC_PIPE,
-  _______,  KC_EQL, KC_MINS, KC_PLUS, KC_LCBR, KC_RCBR, _______,       _______, KC_LBRC, KC_RBRC, KC_SCLN, KC_COLN, KC_BSLS, _______,
+  _______,    KC_1,    KC_2,    KC_3,    KC_4,    KC_5,                       KC_6,    KC_7,    KC_8,    KC_9,    KC_0,  KC_BSPC,
+  _______, DE_EXLM,   DE_AT, DE_UNDS,  DE_DLR, DE_PERC,                        DE_DQUO, DE_AMPR, DE_LABK, DE_RABK, DE_PIPE, KC_F12,
+  _______,  DE_EQL, DE_MINS, DE_PLUS, DE_LCBR, DE_RCBR, _______,       _______, DE_LBRC, DE_RBRC, DE_SCLN, DE_COLN, DE_SLSH, DE_BSLS,
                        _______, _______, _______, _______, _______,       _______, _______, _______, _______, _______
 ),
 
@@ -85,24 +86,24 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 
 /* RAISE
- * ,----------------------------------------.                    ,-----------------------------------------.
+ * ,----------------------------------------.                     ,-----------------------------------------.
  * |      |      |      |      |      |      |                    |      |      |      |      |      |      |
  * |------+------+------+------+------+------|                    |------+------+------+------+------+------|
- * | Esc  | Ins  | Pscr | Menu |      |      |                    |      | PWrd |  Up  | NWrd | DLine| Bspc |
+ * | Esc  | Ins  | Pscr |CnxtM |      |      |                    | PGup | PWrd |  Up  | NWrd |  Del | Bspc |
  * |------+------+------+------+------+------|                    |------+------+------+------+------+------|
- * | Tab  | LAt  | LCtl |LShift|      | Caps |-------.    ,-------|      | Left | Down | Rigth|  Del | Bspc |
- * |------+------+------+------+------+------|  MUTE |    |       |------+------+------+------+------+------|
- * |Shift | Undo |  Cut | Copy | Paste|      |-------|    |-------|      | LStr |      | LEnd |      | Shift|
+ * | Tab  | LAt  | LCtl |LShift|      | Caps |-------.    ,-------| PGup | Left | Down | Rigth|  Del | Bspc |
+ * |------+------+------+------+------+------|  MUTE |    |  F13  |------+------+------+------+------+------|
+ * |Shift | Undo |  Cut | Copy | Paste|      |-------|    |-------|      | Pos1 |      |  End |      | Shift|
  * `-----------------------------------------/       /     \      \-----------------------------------------'
  *            | LGUI | LAlt | LCTR |LOWER | /Space  /       \Enter \  |RAISE | RCTR | RAlt | RGUI |
  *            |      |      |      |      |/       /         \      \ |      |      |      |      |
  *            `----------------------------------'            '------''---------------------------'
  */
 [_VIA2] = LAYOUT(
-  _______, _______ , _______ , _______ , _______ , _______,                           _______,  _______  , _______,  _______ ,  _______ ,_______,
-  _______,  KC_INS,  KC_PSCR,   KC_APP,  XXXXXXX, XXXXXXX,                        KC_PGUP, _______,   KC_UP, _______,_______, KC_BSPC,
+  _______, _______ , _______ , _______ , _______ , _______,                     _______,  _______  , _______,  _______ ,  _______ ,_______,
+  _______,  KC_INS,  KC_PSCR,   KC_APP,  XXXXXXX, XXXXXXX,                        KC_PGUP,   WRD_L,  KC_UP,   WRD_R,  KC_DEL, KC_BSPC,
   _______, KC_LALT,  KC_LCTL,  KC_LSFT,  XXXXXXX, KC_CAPS,                       KC_PGDN,  KC_LEFT, KC_DOWN, KC_RGHT,  KC_DEL, KC_BSPC,
-  _______,KC_UNDO, KC_CUT, KC_COPY, KC_PASTE, XXXXXXX,  _______,       _______,  XXXXXXX, _______, XXXXXXX, _______,   XXXXXXX, _______,
+  _______, WIN_UNDO, WIN_CUT, WIN_COPY, WIN_PASTE, XXXXXXX,  _______,      _______,  XXXXXXX, KC_HOME, XXXXXXX, KC_END,   XXXXXXX, _______,
                          _______, _______, _______, _______, _______,       _______, _______, _______, _______, _______
 )
 };
