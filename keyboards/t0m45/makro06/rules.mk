@@ -1,0 +1,5 @@
+MCU = atmega32u4
+BOOTLOADER = caterina
+ENCODER_ENABLE = yes
+EXTRAKEY_ENABLE = yes
+NKRO_ENABLE = yes
