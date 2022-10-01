@@ -314,6 +314,7 @@ bool oled_task_user(void) {
 }
 
 void suspend_wakeup_init_user(void){
+    oled_clear();
     oled_task_user();
 }
 #endif
