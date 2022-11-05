@@ -14,8 +14,8 @@
 #define MATRIX_COLS 3
 
 /* key matrix pins */
-#define MATRIX_ROW_PINS { B3, F7 }
-#define MATRIX_COL_PINS { D4, D7, B4 }
+#define MATRIX_ROW_PINS { B1, B3 }
+#define MATRIX_COL_PINS { F5, D4, D7 }
 
 /* COL2ROW or ROW2COL */
 #define DIODE_DIRECTION ROW2COL
@@ -29,4 +29,12 @@
 #        define NO_ACTION_FUNCTION
 #    endif
 #endif
+
+
+#define RGB_DI_PIN D3
+#define RGBLED_NUM 6
+#define RGBLIGHT_ANIMATIONS
+
+#define RGBLIGHT_DEFAULT_MODE RGBLIGHT_MODE_RGB_TEST
+#define RGBLIGHT_DEFAULT_VAL 50
 
