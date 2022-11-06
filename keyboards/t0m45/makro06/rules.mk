@@ -1,3 +1,3 @@
 MCU = atmega32u4
-BOOTLOADER = caterina
+BOOTLOADER = atmel-dfu
 OLED_DRIVER_ENABLE = yes
