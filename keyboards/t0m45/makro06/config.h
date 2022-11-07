@@ -10,11 +10,11 @@
 #define PRODUCT         makro06
 
 /* key matrix size */
-#define MATRIX_ROWS 2
+#define MATRIX_ROWS 3
 #define MATRIX_COLS 3
 
 /* key matrix pins */
-#define MATRIX_ROW_PINS { B1, B3 }
+#define MATRIX_ROW_PINS { B1, B3, B6 }
 #define MATRIX_COL_PINS { F5, D4, D7 }
 
 /* COL2ROW or ROW2COL */
@@ -30,7 +30,17 @@
 #    endif
 #endif
 
-
+/* LED configuration */
 #define RGB_DI_PIN D3
 #define RGBLED_NUM 6
 #define RGBLIGHT_EFFECT_TWINKLE
+
+/* Encoder configuration */
+#define ENCODERS_PAD_A { F1 }
+#define ENCODERS_PAD_B { F0 }
+#define ENCODER_RESOLUTION 4
+
+#define TAP_CODE_DELAY 10
+
+/* if direction must be flipped */
+/* #define ENCODER_DIRECTION_FLIP */

@@ -24,11 +24,11 @@ for more options.
 
 //OLED Settings
 #define OLED_DISABLE_TIMEOUT
-#define OLED_DRIVER_ENABLE  //when disabled, dog must be disabled for compiling to work
+//#define OLED_DRIVER_ENABLE  //when disabled, dog must be disabled for compiling to work
 #define OLED_BRIGHTNESS 30
 
 //activate Dog
-#define DOG_ENABLE
+//#define DOG_ENABLE
 
 //activate WPM counter
 #define WPM_COUNTER
