@@ -31,9 +31,10 @@
 #endif
 
 /* LED configuration */
-#define RGB_DI_PIN D3
+#define RGB_DI_PIN D2
 #define RGBLED_NUM 6
 #define RGBLIGHT_EFFECT_TWINKLE
+#define RGBLIGHT_DEFAULT_MODE RGBLIGHT_MODE_TWINKLE
 
 /* Encoder configuration */
 #define ENCODERS_PAD_A { F1 }

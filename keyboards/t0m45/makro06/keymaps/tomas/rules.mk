@@ -3,3 +3,4 @@ OLED_ENABLE = yes
 VIA_ENABLE = yes
 WPM_ENABLE = yes
 ENCODER_ENABLE = yes
+DOG_ENABLE = yes
